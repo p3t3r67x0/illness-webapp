@@ -1,1 +1,1 @@
-# illness-webapp backend
+# Flask API for illness-webapp

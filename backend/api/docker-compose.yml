@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+  mongodb:
+    image: 'bitnami/mongodb:4.0'
+    ports:
+      - "27017:27017"
+    volumes:
+      - 'mongodb_data:/bitnami'
+    environment:
+      - MONGODB_ROOT_PASSWORD=gvOIqn8DJ8tvHz%!
+      - MONGODB_DATABASE=illness
+volumes:
+  mongodb_data:
+    driver: local
