@@ -24,7 +24,7 @@ export default {
     }
   },
   created() {
-    this.$axios.$post('http://localhost:5000/illness', {
+    this.$axios.$post(process.env.API_URL + '/illness', {
       area: this.$store.state.area,
       symptoms: this.$store.state.symptoms
     }).then(res => {

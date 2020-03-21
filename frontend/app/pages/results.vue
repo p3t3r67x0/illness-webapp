@@ -34,7 +34,7 @@ export default {
     }
   },
   created() {
-    this.$axios.$get('http://localhost:5000/illness').then(res => {
+    this.$axios.$get(process.env.API_URL + '/illness').then(res => {
       console.log(res)
       this.results = res
     }).catch((error) => {
