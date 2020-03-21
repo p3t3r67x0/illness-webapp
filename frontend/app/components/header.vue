@@ -1,12 +1,20 @@
 <template>
-  <nuxt-link to="/"><img class="header" src="@/assets/logo.png" /></nuxt-link>
+  <header class ="header"> <nuxt-link to="/"><img class="" src="@/assets/logo.png" /></nuxt-link> </header>
 </template>
 
-<style>
+<style lang="scss">
   .header {
-    width: 300px;
+    width: 100%;
+    background-color: white;
     margin: 0 auto;
     display: block;
     padding: 40px 0;
+    img {
+      margin: auto;
+      width: 400px;
+    }
   }
+
+
 </style>
+
