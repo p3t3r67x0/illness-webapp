@@ -1,5 +1,5 @@
 <template>
-<div class="min-h-screen flex items-center justify-center bg-green-400">
+<div class="min-h-screen flex items-center justify-center">
   <div class="container p-3">
     <h1 class="text-2xl text-white mb-3">
       Welche Symptome haben Sie?
@@ -92,7 +92,7 @@ export default {
         })
       } else {
         this.error = true
-        this.errorMessage = 'Bitte geben Sie mindestens ein Symptome an'
+        this.errorMessage = 'Bitte geben Sie mindestens ein Symptom an'
       }
     }
   }

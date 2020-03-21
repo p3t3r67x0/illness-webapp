@@ -1,5 +1,5 @@
 <template>
-<div class="min-h-screen flex items-center justify-center bg-green-400">
+<div class="flex items-center justify-center bg-green-400">
   <div class="p-3">
     <h1 class="text-2xl text-white mb-3">
       Geschafft! Ihre Daten werden übermittelt.
