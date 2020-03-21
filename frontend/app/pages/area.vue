@@ -1,15 +1,15 @@
 <template>
-<div class="flex items-center justify-center">
+<div class="flex justify-center py-32">
   <div class="container p-3">
-    <h1 class="text-2xl text-white mb-3">
+    <h1 class="text-2xl text-blue-600 mb-3">
       In welchem PLZ Gebiet leben Sie?
     </h1>
     <form v-on:submit.prevent="nextQuestion">
       <small v-if="error" class="inline-block bg-red-600 text-white p-3">{{ errorMessage }}</small>
-      <input type="text" class="w-full text-xl p-2 mb-3" v-model="response" placeholder="732">
+      <input type="text" class="w-full border border-blue-600 rounded text-xl p-2 mb-3" v-model="response" placeholder="732">
       <div class="text-right">
-        <a v-on:click.stop="previousQuestion" class="cursor-pointer inline-block bg-gray-100 hover:bg-gray-400 py-2 px-6 mr-2">Zurück</a>
-        <a v-on:click="nextQuestion" class="cursor-pointer inline-block bg-gray-100 hover:bg-gray-400 py-2 px-6">Weiter</a>
+        <a v-on:click.stop="previousQuestion" class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6 mr-2">Zurück</a>
+        <a v-on:click="nextQuestion" class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6">Weiter</a>
       </div>
     </form>
   </div>

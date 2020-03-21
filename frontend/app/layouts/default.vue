@@ -1,5 +1,5 @@
 <template>
-<div class="layout min-h-full min-h-screen bg-blue-400">
+<div class="layout min-h-full min-h-screen">
   <header-component />
   <nuxt />
 </div>

@@ -1,7 +1,7 @@
 <template>
-<div class="flex items-center justify-center">
+<div class="flex justify-center py-32">
   <div class="container p-3">
-    <h1 class="text-2xl text-white mb-3">
+    <h1 class="text-2xl text-blue-600 mb-3">
       Welche Symptome haben Sie?
     </h1>
     <form v-on:submit.prevent="nextQuestion">
@@ -15,9 +15,9 @@
                     :multiple="true"
                     :taggable="true"
                     @tag="addTag"
-                    class="mb-3"></multiselect>
+                    class="w-full border border-blue-600 rounded text-xl mb-3"></multiselect>
       <div class="text-right">
-        <button class="cursor-pointer inline-block bg-gray-100 hover:bg-gray-400 py-2 px-6">Weiter</button>
+        <button class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6">Weiter</button>
       </div>
     </form>
   </div>
@@ -44,7 +44,7 @@ export default {
     }
   },
   created() {
-    this.$axios.$get('https://illness.403.io/api/v1/symptom/?format=json').then(res => {
+    this.$axios.$get('https://covi.403.io/api/v1/symptom/?format=json').then(res => {
       console.log(res.results)
       this.results = res.results
     }).catch((error) => {
