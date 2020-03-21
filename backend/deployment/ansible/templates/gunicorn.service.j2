@@ -8,9 +8,9 @@ User={{ app_user }}
 Group={{ app_user }}
 Restart=always
 RestartSec=5
-WorkingDirectory={{ app_dir }}
-ExecStart={{ venv_dir }}/bin/gunicorn \
-          -b {{ hostvars['app-1.illness.403.io'].lan_ip }}:{{ gunicorn_port }} \
+WorkingDirectory={{ app_dir }}/backend/
+ExecStart=pipenv  run gunicorn \
+          -b {{ hostvars['illness.403.io'].lan_ip }}:{{ gunicorn_port }} \
           -p {{ app_home }}/gunicorn.pid \
           -w {{ ansible_processor_vcpus + 1 }} \
           {{ app_wsgi }}

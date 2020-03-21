@@ -4,7 +4,6 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-django-extensions = "*"
 
 [packages]
 psycopg2-binary = "*"
@@ -12,6 +11,8 @@ django-environ = "*"
 django = "*"
 django-filter = "*"
 djangorestframework = "*"
+gunicorn = "*"
+django-extensions = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3"
