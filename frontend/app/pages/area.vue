@@ -2,12 +2,13 @@
 <div class="min-h-screen flex items-center justify-center bg-green-400">
   <div class="container p-3">
     <h1 class="text-2xl text-white mb-3">
-      Welche Symptome haben Sie?
+      In welchem PLZ Gebiet leben Sie?
     </h1>
     <form v-on:submit.prevent="nextQuestion">
-      <input type="text" class="w-full text-xl p-2 mb-3" v-model="response" placeholder="Husten, Schüttelfrost">
+      <input type="text" class="w-full text-xl p-2 mb-3" v-model="response" placeholder="732">
       <div class="text-right">
-        <button class="cursor-pointer inline-block bg-gray-100 hover:bg-gray-400 py-2 px-6">Weiter</button>
+        <a v-on:click.stop="previousQuestion" class="cursor-pointer inline-block bg-gray-100 hover:bg-gray-400 py-2 px-6 mr-2">Zurück</a>
+        <a v-on:click="nextQuestion" class="cursor-pointer inline-block bg-gray-100 hover:bg-gray-400 py-2 px-6">Weiter</a>
       </div>
     </form>
   </div>
@@ -36,17 +37,22 @@ export default {
   computed: {
     response: {
       get() {
-        return this.$store.state.symptoms
+        return this.$store.state.area
       },
       set(response) {
-        this.$store.commit('updateSymptoms', response)
+        this.$store.commit('updateArea', response)
       },
     }
   },
   methods: {
+    previousQuestion() {
+      this.$router.push({
+        name: 'index'
+      })
+    },
     nextQuestion() {
       this.$router.push({
-        name: 'area'
+        name: 'submit'
       })
     }
   }
