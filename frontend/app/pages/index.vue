@@ -6,7 +6,16 @@
     </h1>
     <form v-on:submit.prevent="nextQuestion">
       <small v-if="error" class="inline-block bg-red-600 text-white p-3">{{ errorMessage }}</small>
-      <input type="text" class="w-full text-xl p-2 mb-3" v-model="response" placeholder="Husten, Schüttelfrost">
+      <multiselect  v-model="response"
+                    tag-placeholder="Add this as new tag"
+                    placeholder="Husten, Schüttelfrost"
+                    label="name"
+                    track-by="code"
+                    :options="options"
+                    :multiple="true"
+                    :taggable="true"
+                    @tag="addTag"
+                    class="mb-3"></multiselect>
       <div class="text-right">
         <button class="cursor-pointer inline-block bg-gray-100 hover:bg-gray-400 py-2 px-6">Weiter</button>
       </div>
@@ -19,6 +28,16 @@
 export default {
   data() {
     return {
+      options: [
+        { name: 'Fieber', code: 'fever' },
+        { name: 'Husten', code: 'cough' },
+        { name: 'Schüttelfrost', code: 'ague' },
+        { name: 'Kurzatmigkeit oder Atembeschwerden', code: 'shortness-of-breath-or-difficulty-breathing' },
+        { name: 'Müdigkeit', code: 'tiredness' },
+        { name: 'Schmerzen', code: 'aches' },
+        { name: 'Laufende Nase', code: 'runny-nose' },
+        { name: 'Halsentzündung', code: 'sore-throat' }
+      ],
       error: false,
       errorMessage: null
     }
@@ -52,14 +71,22 @@ export default {
   },
   watch: {
     response: function() {
-      if (this.response.length > 2) {
+      if (this.response.length > 0) {
         this.error = false
       }
     }
   },
   methods: {
+    addTag (newTag) {
+      const tag = {
+        name: newTag,
+        code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+      }
+      this.response = [...this.response, tag]
+      this.$store.commit('updateSymptoms', [...this.$store.state.symptoms, tag])
+    },
     nextQuestion() {
-      if (this.response.length > 2) {
+      if (this.response.length > 0) {
         this.$router.push({
           name: 'area'
         })
