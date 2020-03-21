@@ -20,3 +20,8 @@ $ npm run generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+## Docker usage:
+- `docker build -t illness-ui .`
+- `docker run -p 3000:3000 illness-ui`
+

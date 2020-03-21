@@ -12,7 +12,7 @@ from flask_restful import Resource, Api
 app = Flask(__name__)
 api = Api(app)
 
-app.config['MONGO_URI'] = 'mongodb://root:gvOIqn8DJ8tvHz%!@localhost:27017/illness?authSource=admin'
+app.config['MONGO_URI'] = 'mongodb://root:gvOIqn8DJ8tvHz%!@mongodb:27017/illness?authSource=admin'
 # Disable redirecting on POST method from /illness to /illness/
 app.url_map.strict_slashes = ''
 
