@@ -5,6 +5,7 @@
       Welche Symptome haben Sie?
     </h1>
     <form v-on:submit.prevent="nextQuestion">
+      <small v-if="error" class="inline-block bg-red-600 text-white p-3">{{ errorMessage }}</small>
       <input type="text" class="w-full text-xl p-2 mb-3" v-model="response" placeholder="Husten, Schüttelfrost">
       <div class="text-right">
         <button class="cursor-pointer inline-block bg-gray-100 hover:bg-gray-400 py-2 px-6">Weiter</button>
@@ -16,6 +17,12 @@
 
 <script>
 export default {
+  data() {
+    return {
+      error: false,
+      errorMessage: null
+    }
+  },
   head() {
     return {
       title: 'tbd.',
@@ -43,11 +50,23 @@ export default {
       },
     }
   },
+  watch: {
+    response: function() {
+      if (this.response.length > 2) {
+        this.error = false
+      }
+    }
+  },
   methods: {
     nextQuestion() {
-      this.$router.push({
-        name: 'area'
-      })
+      if (this.response.length > 2) {
+        this.$router.push({
+          name: 'area'
+        })
+      } else {
+        this.error = true
+        this.errorMessage = 'Bitte geben Sie mindestens ein Symptome an'
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
 export const state = () => ({
-  symptoms: null,
-  area: null
+  symptoms: '',
+  area: ''
 })
 
 export const mutations = {

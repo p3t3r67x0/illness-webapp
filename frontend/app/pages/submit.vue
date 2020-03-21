@@ -2,8 +2,11 @@
 <div class="min-h-screen flex items-center justify-center bg-green-400">
   <div class="p-3">
     <h1 class="text-2xl text-white mb-3">
-      Ihre Antwort wird übermittelt!
+      Geschafft! Ihre Daten werden übermittelt.
     </h1>
+    <div class="text-center">
+      <a v-on:click.stop="previousQuestion" class="cursor-pointer inline-block bg-gray-100 hover:bg-gray-400 py-2 px-6">Zurück</a>
+    </div>
   </div>
 </div>
 </template>
@@ -29,6 +32,13 @@ export default {
     }).catch((error) => {
       console.log(error)
     })
+  },
+  methods: {
+    previousQuestion() {
+      this.$router.push({
+        name: 'area'
+      })
+    }
   }
 }
 </script>
