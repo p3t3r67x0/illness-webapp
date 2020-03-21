@@ -10,6 +10,19 @@ services:
     environment:
       - MONGODB_ROOT_PASSWORD=gvOIqn8DJ8tvHz%!
       - MONGODB_DATABASE=illness
+
+  illness-api:
+    build: ./backend/api
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+
+  illness-ui:
+    build: ./frontend/app
+    ports:
+      - "3000:3000"
+  
 volumes:
   mongodb_data:
     driver: local
