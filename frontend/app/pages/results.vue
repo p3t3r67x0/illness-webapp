@@ -1,5 +1,5 @@
 <template>
-<div class="min-h-screen flex justify-center bg-green-400 md:py-12">
+<div class="flex justify-center md:py-12">
   <div class="container p-3">
     <h1 class="text-2xl text-white mb-3">
       Übersicht der eingereichten Daten.

@@ -1,5 +1,5 @@
 <template>
-<div class="min-h-screen flex items-center justify-center bg-green-400">
+<div class="flex items-center justify-center">
   <div class="container p-3">
     <h1 class="text-2xl text-white mb-3">
       In welchem PLZ Gebiet leben Sie?
