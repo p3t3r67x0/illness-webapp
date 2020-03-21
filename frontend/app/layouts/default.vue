@@ -6,12 +6,13 @@
 </template>
 
 <script>
-  import HeaderComponent from '../components/Header.vue'
-  export default {
-    components: {
-      HeaderComponent
-    }
+import HeaderComponent from '../components/header.vue'
+
+export default {
+  components: {
+    HeaderComponent
   }
+}
 </script>
 
 <style lang="scss">
