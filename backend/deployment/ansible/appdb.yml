@@ -1,0 +1,42 @@
+---
+- hosts: [appdb]
+  remote_user: "{{ remote_user }}"
+
+  tasks:
+    - name: Install postgresql-10 and python3-psycopg2
+      apt:
+        name: ['postgresql-10', 'python3-psycopg2']
+
+    - name: add new configuration to postgresql.conf
+      blockinfile:
+        dest: /etc/postgresql/10/main/postgresql.conf
+        block: |
+          listen_addresses = '{{ lan_ip }}'
+
+    - name: add new configuration to pg_hba.conf
+      blockinfile:
+        dest: /etc/postgresql/10/main/pg_hba.conf
+        block: |
+          host    {{ app_db_name }}   postgres        {{ hostvars['illness.403.io'].lan_ip }}/32                 md5
+
+    - name: Make sure a postgres is running
+      systemd:
+        enabled: true
+        state: restarted
+        name: postgresql
+
+    - name: Create app database
+      become: true
+      become_user: postgres
+      postgresql_db:
+        name: "{{ app_db_name }}"
+        state: present
+
+    - name: Change postgres user password
+      become: true
+      become_user: postgres
+      postgresql_user:
+        db: "{{ app_db_name }}"
+        name: postgres
+        password: "{{ app_db_password }}"
+        expires: infinity

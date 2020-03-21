@@ -1,0 +1,88 @@
+---
+- hosts: [app]
+  remote_user: "{{ remote_user }}"
+
+  vars:
+    - app_wsgi: "config.wsgi"
+    - gunicorn_service_name: "gunicorn.{{ project_name }}"
+    - gunicorn_service_file: "/etc/systemd/system/{{ gunicorn_service_name }}.service"
+
+  tasks:
+    - name: Install virtualenv and pip
+      apt:
+        name: ['virtualenv', 'python3-pip']
+
+    - name: App user is present
+      user:
+        name: "{{ app_user }}"
+
+    - name: Creates App home dir
+      file:
+        path: "{{ app_home }}"
+        state: directory
+
+    - name: Chown App dir
+      file:
+        path: "{{ app_home }}"
+        owner: "{{ app_user }}"
+        group: "{{ app_user }}"
+
+    - name: git checkout
+      become: true
+      become_user: "{{ app_user }}"
+      git:
+        repo: '{{ app_repo }}'
+        dest: "{{ app_dir }}"
+        force: true
+        version: master
+
+    - name: "Create .env"
+      become: true
+      become_user: "{{ app_user }}"
+      template:
+        src: templates/.env.j2
+        dest: "{{ app_dir }}/backend/illness/.env"
+
+    - name: Install pipenv
+      pip:
+        name: pipenv
+
+    - name: Install python deps
+      become: true
+      become_user: "{{ app_user }}"
+      shell: "cd {{ app_dir }}/backend/ && pipenv install"
+      args:
+        executable: /bin/bash
+
+#    - name: Make sure a Gunicorn service is stopped
+#      stat:
+#        path: "{{ gunicorn_service_file }}"
+#      register: p
+#      systemd:
+#        state: stopped
+#        name: "{{ gunicorn_service_name }}"
+#      when: p.stat.exists
+#
+#    - name: Run Migrations
+#      become: true
+#      become_user: "{{ app_user }}"
+#      chdir: "{{ app_dir }}/backend/"
+#      command: "pipenv run ./manage.py migrate"
+#
+#    - name: Gunicorn .service file is in place
+#      template:
+#        src: templates/gunicorn.service.j2
+#        dest: "{{ gunicorn_service_file }}"
+#
+#    - name: Make sure a Gunicorn service is running
+#      systemd:
+#        daemon_reload: true
+#        enabled: true
+#        state: started
+#        name: "{{ gunicorn_service_name }}"
+#
+#    - name: add startup to root/.profile
+#      blockinfile:
+#        dest: /root/.profile
+#        block: |
+#          sudo su - {{ app_user }} -s /bin/bash;
