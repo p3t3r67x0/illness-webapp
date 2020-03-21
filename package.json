@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "nuxt-vue-multiselect": "^1.0.4"
+  }
+}

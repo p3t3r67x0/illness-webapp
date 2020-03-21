@@ -45,7 +45,8 @@ export default {
   */
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+    'nuxt-vue-multiselect'
   ],
   /*
   ** Build configuration
@@ -55,6 +56,7 @@ export default {
     ** You can extend webpack config here
     */
     extend (config, ctx) {
-    }
+    },
+    vendor: ['@johmun/vue-tags-input']
   }
 }
