@@ -27,6 +27,7 @@ export default {
   ** Global CSS
   */
   css: [
+    '~/node_modules/leaflet/dist/leaflet.css'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -46,7 +47,8 @@ export default {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
-    'nuxt-vue-multiselect'
+    'nuxt-vue-multiselect',
+    'nuxt-leaflet'
   ],
   /*
   ** Build configuration
