@@ -1,5 +1,5 @@
 <template>
-<div class="min-h-screen flex justify-center bg-green-400 py-12">
+<div class="min-h-screen flex justify-center bg-blue-400 py-12">
   <div class="container">
     <h1 class="text-5xl text-white mb-3">
       Fragenkatalog
