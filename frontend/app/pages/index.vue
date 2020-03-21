@@ -14,7 +14,8 @@
                     :options="options"
                     :multiple="true"
                     :taggable="true"
-                    @tag="addTag"></multiselect>
+                    @tag="addTag"
+                    class="mb-3"></multiselect>
       <div class="text-right">
         <button class="cursor-pointer inline-block bg-gray-100 hover:bg-gray-400 py-2 px-6">Weiter</button>
       </div>
@@ -70,7 +71,7 @@ export default {
   },
   watch: {
     response: function() {
-      if (this.response.length > 2) {
+      if (this.response.length > 0) {
         this.error = false
       }
     }
@@ -81,10 +82,11 @@ export default {
         name: newTag,
         code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
       }
+      this.response = [...this.response, tag]
       this.$store.commit('updateSymptoms', [...this.$store.state.symptoms, tag])
     },
     nextQuestion() {
-      if (this.$store.state.symptoms.length > 2) {
+      if (this.response.length > 0) {
         this.$router.push({
           name: 'area'
         })
