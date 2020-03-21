@@ -1,9 +1,9 @@
 [reverse_proxy]
-illness.403.io lan_ip=127.0.0.1
+covi.403.io lan_ip=127.0.0.1
 
 [app]
-illness.403.io lan_ip=127.0.0.1
+covi.403.io lan_ip=127.0.0.1
 
 [appdb]
-illness.403.io lan_ip=127.0.0.1
+covi.403.io lan_ip=127.0.0.1
 

@@ -17,7 +17,7 @@
       blockinfile:
         dest: /etc/postgresql/10/main/pg_hba.conf
         block: |
-          host    {{ app_db_name }}   postgres        {{ hostvars['illness.403.io'].lan_ip }}/32                 md5
+          host    {{ app_db_name }}   postgres        {{ hostvars['covi.403.io'].lan_ip }}/32                 md5
 
     - name: Make sure a postgres is running
       systemd:

@@ -1,3 +1,3 @@
 .idea
 node_modules
-/backend/illness/.env
+/backend/covi/.env

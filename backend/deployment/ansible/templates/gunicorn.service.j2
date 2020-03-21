@@ -10,7 +10,7 @@ Restart=always
 RestartSec=5
 WorkingDirectory={{ app_dir }}/backend/
 ExecStart=/usr/local/bin/pipenv run gunicorn \
-          -b {{ hostvars['illness.403.io'].lan_ip }}:{{ gunicorn_port }} \
+          -b {{ hostvars['covi.403.io'].lan_ip }}:{{ gunicorn_port }} \
           -p {{ app_home }}/gunicorn.pid \
           -w {{ ansible_processor_vcpus + 1 }} \
           {{ app_wsgi }}

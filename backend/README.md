@@ -1,5 +1,5 @@
-Illness WebApp README
----------------------
+covi WebApp README
+------------------
 
 ## Installation and Setup
 
@@ -25,9 +25,9 @@ use this command instead:
 
     pipenv shell
 
-### Copy illness/.env.example to illness/.env and adjust the settings
+### Copy covi/.env.example to covi/.env and adjust the settings
 
-    cp illness/.env.example illness/.env
+    cp covi/.env.example covi/.env
 
 ### Init the Database
 

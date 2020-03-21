@@ -3,7 +3,7 @@
   remote_user: "{{ remote_user }}"
 
   vars:
-    - app_wsgi: "illness.wsgi"
+    - app_wsgi: "covi.wsgi"
     - gunicorn_service_name: "gunicorn.{{ project_name }}"
     - gunicorn_service_file: "/etc/systemd/system/{{ gunicorn_service_name }}.service"
     - allowed_hosts: "127.0.0.1,localhost,{{ domain_name }}"
@@ -42,7 +42,7 @@
       become_user: "{{ app_user }}"
       template:
         src: templates/.env.j2
-        dest: "{{ app_dir }}/backend/illness/.env"
+        dest: "{{ app_dir }}/backend/covi/.env"
 
     - name: Install pipenv
       pip:

@@ -1,11 +1,12 @@
 ---
-project_name: "illness"
-domain_name: "illness.403.io"
+project_name: "covi"
+domain_name: "covi.403.io"
 admin_email: "boerni@gmail.com"
 app_home: "/opt/{{ project_name }}"
 app_dir: "{{ app_home }}"
-app_user: "illness"
-app_db_name: "illness"
-app_repo: "https://github.com/p3t3r67x0/illness-webapp.git"
+app_user: "covi"
+app_db_name: "covi"
+app_repo: "https://github.com/p3t3r67x0/covi-webapp.git"
 static_dir: "{{ app_home }}/var/static"
 gunicorn_port: 8000
+letsencrypt_email: boerni@gmail.com

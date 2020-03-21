@@ -67,7 +67,7 @@
         creates: /etc/letsencrypt/live/{{ domain_name }}
 
     - name: Generate dhparams
-      shell: openssl dhparam -out /etc/nginx/dhparams.pem 4098
+      shell: openssl dhparam -out /etc/nginx/dhparams.pem 4096
       args:
         creates: /etc/nginx/dhparams.pem
 

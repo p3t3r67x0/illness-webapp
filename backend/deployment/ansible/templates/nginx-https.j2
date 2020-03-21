@@ -8,7 +8,6 @@ map $http_origin $allow_origin {
 
   # all your domains
   ~localhost          $http_origin;
-  ~illness.netlify.com $http_origin;
 }
 
 upstream appserver {
