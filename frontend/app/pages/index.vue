@@ -10,8 +10,8 @@
                     tag-placeholder="Add this as new tag"
                     placeholder="Husten, Schüttelfrost"
                     label="name"
-                    track-by="code"
-                    :options="options"
+                    track-by="id"
+                    :options="results"
                     :multiple="true"
                     :taggable="true"
                     @tag="addTag"
@@ -28,16 +28,7 @@
 export default {
   data() {
     return {
-      options: [
-        { name: 'Fieber', code: 'fever' },
-        { name: 'Husten', code: 'cough' },
-        { name: 'Schüttelfrost', code: 'ague' },
-        { name: 'Kurzatmigkeit oder Atembeschwerden', code: 'shortness-of-breath-or-difficulty-breathing' },
-        { name: 'Müdigkeit', code: 'tiredness' },
-        { name: 'Schmerzen', code: 'aches' },
-        { name: 'Laufende Nase', code: 'runny-nose' },
-        { name: 'Halsentzündung', code: 'sore-throat' }
-      ],
+      results: [],
       error: false,
       errorMessage: null
     }
@@ -52,9 +43,10 @@ export default {
       }]
     }
   },
-  asyncData(context) {
-    context.$axios.$get('https://jsonplaceholder.typicode.com/todos/1').then(res => {
-      console.log(res)
+  created() {
+    this.$axios.$get('https://illness.403.io/api/v1/symptom/?format=json').then(res => {
+      console.log(res.results)
+      this.results = res.results
     }).catch((error) => {
       console.log(error)
     })
@@ -80,7 +72,7 @@ export default {
     addTag (newTag) {
       const tag = {
         name: newTag,
-        code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+        id: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
       }
       this.response = [...this.response, tag]
       this.$store.commit('updateSymptoms', [...this.$store.state.symptoms, tag])
