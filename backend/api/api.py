@@ -30,7 +30,7 @@ class Illness(Resource):
 
 class IllnessList(Resource):
     def get(self):
-        illness = mongo.db.illnesss
+        illness = mongo.db.illness
         output = []
         for i in illness.find():
             output.append({'symptoms' : i['symptoms'], 'area' : i['area']})
