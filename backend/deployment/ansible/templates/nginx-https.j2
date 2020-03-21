@@ -88,22 +88,11 @@ server {
         gzip_vary on;
     }
 
-    location /static/ {
-        expires max;
-        autoindex off;
-        alias {{ app_home }}/static/;
-
-        gzip on;
-        gzip_min_length  1100;
-        gzip_buffers  4 32k;
-        gzip_types    text/plain application/javascript application/x-javascript text/javascript text/xml text/css;
-        gzip_vary on;
-    }
-
     location / {
         try_files $uri $uri/ =404;
+        #expires max;
         autoindex off;
-        alias {{ app_home }}/;
+        alias {{ app_frontend_dist_dir }}/;
 
         gzip on;
         gzip_min_length  1100;

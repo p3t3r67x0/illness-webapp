@@ -4,6 +4,9 @@ covi.403.io lan_ip=127.0.0.1
 [app]
 covi.403.io lan_ip=127.0.0.1
 
+[frontend]
+covi.403.io lan_ip=127.0.0.1
+
 [appdb]
 covi.403.io lan_ip=127.0.0.1
 

@@ -1,0 +1,29 @@
+---
+- hosts: [frontend]
+  remote_user: "{{ remote_user }}"
+
+  tasks:
+    - name: Install node and npm
+      apt:
+        name: ['npm', 'nodejs']
+
+    - name: git checkout
+      become: true
+      become_user: "{{ app_user }}"
+      git:
+        repo: '{{ app_repo }}'
+        dest: "{{ app_dir }}"
+        force: true
+        version: master
+
+    - name: Update packages based on package.json to their latest version.
+      shell: "cd {{ app_frontend_dir }}/ && npm i"
+      args:
+        executable: /bin/bash
+
+    - name: Package
+      become: true
+      become_user: "{{ app_user }}"
+      shell: "cd {{ app_frontend_dir }}/ && npm run generate"
+      args:
+        executable: /bin/bash
