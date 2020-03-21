@@ -2,13 +2,13 @@ from rest_framework import viewsets
 
 from datastore.models import Symptom
 
-from .serializers import SymptomSerializer
+from .serializers import SymptomSerializer, ReportSerializer
 
 
 class SymptomViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Symptom.objects.all().order_by("name")
     serializer_class = SymptomSerializer
 
-    search_fields = [
-        "name",
-    ]
+
+class ReportViewSet(viewsets.ModelViewSet):
+    serializer_class = ReportSerializer

@@ -6,6 +6,7 @@
     - app_wsgi: "illness.wsgi"
     - gunicorn_service_name: "gunicorn.{{ project_name }}"
     - gunicorn_service_file: "/etc/systemd/system/{{ gunicorn_service_name }}.service"
+    - allowed_hosts: "127.0.0.1,localhost,{{ domain_name }}"
 
   tasks:
     - name: Install virtualenv and pip
