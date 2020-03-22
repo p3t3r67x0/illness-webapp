@@ -53,6 +53,11 @@ export default {
     'nuxt-vue-multiselect',
     'nuxt-leaflet'
   ],
+  purgeCSS: {
+     whitelistPatterns: [
+       /multiselect/
+     ]
+   },
   /*
   ** Build configuration
   */
