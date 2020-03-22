@@ -14,7 +14,6 @@ See `./app` folder
      ansible-playbook common_server_setup.yml --ask-vault-pass
      ansible-playbook reverse_proxy.yml --ask-vault-pass
      ansible-playbook appdb.yml --ask-vault-pass
-     ansible-playbook appdb.yml --ask-vault-pass
      ansible-playbook app.yml --ask-vault-pass
      ansible-playbook frontend.yml --ask-vault-pass
      
