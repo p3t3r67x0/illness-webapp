@@ -19,6 +19,9 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  env: {
+    API_URL: process.env.API_URL || 'https://covi.403.io/api/v1/'
+  },
   /*
   ** Customize the progress-bar color
   */
@@ -27,6 +30,7 @@ export default {
   ** Global CSS
   */
   css: [
+    '~/node_modules/leaflet/dist/leaflet.css'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -46,7 +50,8 @@ export default {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
-    'nuxt-vue-multiselect'
+    'nuxt-vue-multiselect',
+    'nuxt-leaflet'
   ],
   /*
   ** Build configuration

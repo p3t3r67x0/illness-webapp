@@ -44,7 +44,7 @@ export default {
     }
   },
   created() {
-    this.$axios.$get('https://covi.403.io/api/v1/symptom/?format=json').then(res => {
+    this.$axios.$get(`${process.env.API_URL}/symptom/?format=json`).then(res => {
       console.log(res.results)
       this.results = res.results
     }).catch((error) => {

@@ -13,7 +13,10 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.9.5",
     "@nuxtjs/dotenv": "^1.4.1",
+    "heatmap.js": "^2.0.5",
+    "leaflet-geosearch": "^2.7.0",
     "nuxt": "^2.0.0",
+    "nuxt-leaflet": "0.0.21",
     "nuxt-vue-multiselect": "1.0.4"
   },
   "devDependencies": {
