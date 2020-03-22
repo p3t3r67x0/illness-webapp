@@ -45,7 +45,6 @@ export default {
   },
   created() {
     this.$axios.$get(`${process.env.API_URL}/symptom/?format=json`).then(res => {
-      console.log(res.results)
       this.results = res.results
     }).catch((error) => {
       console.log(error)
