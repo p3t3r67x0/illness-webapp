@@ -10,5 +10,5 @@ class Symptom(models.Model):
 
 
 class Report(TimeStampedModel):
-    zip_code_shortened = models.PositiveSmallIntegerField(_("Zip code 3 chars"), blank=False, null=False)
+    zip_code_shortened = models.PositiveIntegerField(_("Zip code 3 chars"), blank=False, null=False)
     symptoms = models.ManyToManyField(Symptom, blank=False)
