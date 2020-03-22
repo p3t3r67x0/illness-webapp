@@ -6,7 +6,7 @@
     </h1>
     <form v-on:submit.prevent="nextQuestion">
       <small v-if="error" class="inline-block bg-red-600 text-white p-3">{{ errorMessage }}</small>
-      <input type="text" class="w-full border border-blue-600 rounded text-xl p-2 mb-3" v-model="response" placeholder="732">
+      <input type="text" class="w-full border border-blue-600 rounded text-xl p-2 mb-3" v-model="response" placeholder="10115">
       <div class="text-right">
         <a v-on:click.stop="previousQuestion" class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6 mr-2">Zurück</a>
         <a v-on:click="nextQuestion" class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6">Weiter</a>

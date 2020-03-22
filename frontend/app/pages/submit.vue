@@ -33,7 +33,7 @@ export default {
 
     console.log(symptomsId)
     this.$axios.$post(`${process.env.API_URL}/report/`, {
-      zip_code_shortened: this.$store.state.area,
+      zip_code: this.$store.state.area,
       symptoms: symptomsId
     }).then(res => {
       console.log(res)
