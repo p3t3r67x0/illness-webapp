@@ -9,7 +9,9 @@ class SymptomSerializer(serializers.ModelSerializer):
 
 
 class ReportSerializer(serializers.ModelSerializer):
-    symptoms = serializers.PrimaryKeyRelatedField(many=True, queryset=Symptom.objects.all(), required=True)
+    symptoms = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Symptom.objects.all(), required=True, allow_empty=False
+    )
 
     class Meta:
         model = Report

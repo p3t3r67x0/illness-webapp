@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from rest_framework import viewsets, views
+from rest_framework import viewsets
 from django.db.models import F, Count
 from datastore.models import Symptom, Report
 
