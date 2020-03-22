@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     # external apps
     "rest_framework",
     "django_filters",
+    "django_extensions",
     # project related apps
     "datastore.apps.DatastoreConfig",
     "api.apps.APIConfig",
