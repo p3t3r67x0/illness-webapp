@@ -27,11 +27,9 @@ export default {
   },
   head() {
     return {
-      title: 'tbd.',
       meta: [{
         hid: 'description',
         name: 'description',
-        content: 'tbd.'
       }]
     }
   },
