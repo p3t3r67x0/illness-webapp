@@ -3,3 +3,7 @@
 @import 'tailwindcss/components';
 /* purgecss end ignore */
 @import 'tailwindcss/utilities';
+
+.multiselect__option--highlight, .multiselect__tag-icon:hover, .multiselect__option--highlight::after, .multiselect__tag {
+  background: #3182ce !important;
+}
