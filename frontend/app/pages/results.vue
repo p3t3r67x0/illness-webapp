@@ -127,6 +127,9 @@ export default {
         await this.normalizeResponse(response).forEach(async (item) => {
           try {
             const result = await provider.search({query: item.zip});
+            if (!result || !result[0]) {
+              return;
+            }
             this.stats.push({
               label: result[0].label,
               symptoms: item.symptoms
