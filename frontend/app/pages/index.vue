@@ -8,7 +8,7 @@
       <small v-if="error" class="inline-block bg-red-600 text-white p-3">{{ errorMessage }}</small>
       <multiselect  v-model="response"
                     tag-placeholder="Add this as new tag"
-                    placeholder="Husten, Schüttelfrost"
+                    placeholder="z.B. Husten, Schüttelfrost"
                     label="name"
                     track-by="id"
                     :options="results"
