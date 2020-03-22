@@ -8,6 +8,8 @@ map $http_origin $allow_origin {
 
   # all your domains
   ~localhost          $http_origin;
+  ~127.0.0.1          $http_origin;
+  ~192.168.2.101      $http_origin;
 }
 
 upstream appserver {
