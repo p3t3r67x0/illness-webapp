@@ -24,9 +24,17 @@ export default {
     }
   },
   created() {
-    this.$axios.$post(process.env.API_URL + '/illness', {
-      area: this.$store.state.area,
-      symptoms: this.$store.state.symptoms
+    const symptoms = this.$store.state.symptoms
+    let symptomsId = []
+
+    for (let symptom of symptoms) {
+      symptomsId.push(symptom.id)
+    }
+
+    console.log(symptomsId)
+    this.$axios.$post('https://covi.403.io/api/v1/report/', {
+      zip_code_shortened: this.$store.state.area,
+      symptoms: symptomsId
     }).then(res => {
       console.log(res)
     }).catch((error) => {

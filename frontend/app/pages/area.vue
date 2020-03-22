@@ -34,13 +34,6 @@ export default {
       }]
     }
   },
-  asyncData(context) {
-    context.$axios.$get('https://jsonplaceholder.typicode.com/todos/1').then(res => {
-      console.log(res)
-    }).catch((error) => {
-      console.log(error)
-    })
-  },
   computed: {
     response: {
       get() {
