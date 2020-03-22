@@ -1,13 +1,22 @@
 <template>
 <div class="flex justify-center md:py-12">
   <div class="container p-3">
-    <h1 class="text-2xl mb-3">
+    <h1 class="text-2xl mb-3 text-blue-600">
       Übersicht der eingereichten Daten.
     </h1>
     <div id="map"></div>
-    <ul class="list">
+    <ul class="list text-blue-600">
       <li v-for="(item, index) in stats" :key="index">
-        {{ item.label }} - <strong>Symptome:</strong> {{ formatSymptoms(item.symptoms) }}
+        <div v-for="(item, index) in stats" :key="index" class="rounded overflow-hidden shadow-lg">
+          <div class="px-6 py-4">
+            <strong class="text-base">
+              {{ item.label }}
+            </strong>
+          </div>
+          <div class="px-6 py-4">
+            <span v-for="symptom in formatSymptoms(item.symptoms)" class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{symptom}}</span>
+          </div>
+        </div>
       </li>
     </ul>
   </div>
@@ -103,7 +112,7 @@ export default {
     formatSymptoms(symptoms) {
       return Object.keys(symptoms).map((symptom, index) => {
         return `${symptom}: ${Object.values(symptoms)[index]}`;
-      }).join(', ');
+      });
     },
     async createMap(response) {
       // eslint-disable-next-line no-undef
