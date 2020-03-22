@@ -100,7 +100,6 @@ export default {
   },
   methods: {
     scrollToTop() {
-      console.log('sdf');
       window.scrollTo({
         top: 0,
         left: 0,
