@@ -14,6 +14,7 @@
                     :options="results"
                     :multiple="true"
                     :taggable="true"
+                    :close-on-select="false"
                     @tag="addTag"
                     class="w-full border border-blue-600 rounded text-xl mb-3"></multiselect>
       <div class="text-right">
