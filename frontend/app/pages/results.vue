@@ -1,11 +1,11 @@
 <template>
 <div class="flex justify-center md:py-12">
   <div class="container p-3">
-    <h1 class="text-2xl text-white mb-3">
+    <h1 class="text-2xl mb-3">
       Übersicht der eingereichten Daten.
     </h1>
     <div id="map"></div>
-    <ul class="list text-white">
+    <ul class="list">
       <li v-for="(item, index) in stats" :key="index">
         {{ item.label }} - <strong>Symptome:</strong> {{ formatSymptoms(item.symptoms) }}
       </li>
