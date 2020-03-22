@@ -2,7 +2,7 @@
 <div class="flex justify-center md:py-12">
   <div class="container p-3">
     <h1 class="text-2xl mb-3 text-blue-600">
-      Übersicht der eingereichten Daten.
+      Übersicht der eingereichten Daten
     </h1>
     <div id="map"></div>
     <ul class="list text-blue-600">
