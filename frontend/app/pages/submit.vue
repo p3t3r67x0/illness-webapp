@@ -6,6 +6,10 @@
     </h1>
     <div class="text-center">
       <a v-on:click.stop="previousQuestion" class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6">Zurück</a>
+      <div class="text-blue-600">- oder -</div>
+      <a class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6" v-on:click.stop="$router.push({
+        name: 'results'
+      })">Zur Übersicht der eingereichten Daten.</a>
     </div>
   </div>
 </div>

@@ -19,6 +19,9 @@
         </div>
       </li>
     </ul>
+    <div class="scroll-to-top">
+      <a class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6" v-on:click.stop="scrollToTop">&#8593;</a>
+    </div>
   </div>
 </div>
 </template>
@@ -96,6 +99,14 @@ export default {
     }
   },
   methods: {
+    scrollToTop() {
+      console.log('sdf');
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
+    },
     normalizeResponse(response) {
       const groupedResponse = groupBy(response, 'zip_code')
 
@@ -159,7 +170,7 @@ export default {
 }
 </script>
 
-<style class="scss">
+<style lang="scss">
   #map {
     position: relative;
     display: block;
@@ -168,5 +179,19 @@ export default {
 
   .list {
     padding: 20px 0;
+  }
+
+  .scroll-to-top {
+    width: 100%;
+    margin: 0;
+    text-align: right;
+    position: fixed;
+    display: block;
+    bottom: 16px;
+    right: 16px;
+    > a {
+      opacity: .5;
+      left: -16px;
+    }
   }
 </style>
