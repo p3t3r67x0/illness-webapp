@@ -6,7 +6,7 @@
     </h1>
     <form v-on:submit.prevent="nextQuestion">
       <small v-if="error" class="inline-block bg-red-600 text-white p-3">{{ errorMessage }}</small>
-      <input type="text" class="w-full border border-blue-600 rounded text-xl p-2 mb-3" v-model="response" placeholder="10115">
+      <input type="text" class="w-full border border-blue-600 rounded text-xl p-2 mb-3" v-model="response" placeholder="10115" :pattern="zipRegexp">
       <div class="text-right">
         <a v-on:click.stop="previousQuestion" class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6 mr-2">Zurück</a>
         <a v-on:click="nextQuestion" class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6">Weiter</a>
@@ -21,7 +21,8 @@ export default {
   data() {
     return {
       error: false,
-      errorMessage: null
+      errorMessage: null,
+      zipRegexp: /^(?!01000)(?!99999)(0[1-9]\d{3}|[1-9]\d{4})$/
     }
   },
   head() {
@@ -46,7 +47,7 @@ export default {
   },
   watch: {
     response: function() {
-      if (this.response.length > 2) {
+      if (this.response.match(this.zipRegexp)) {
         this.error = false
       }
     }
@@ -58,13 +59,13 @@ export default {
       })
     },
     nextQuestion() {
-      if (this.response.length > 2) {
+      if (this.response.match(this.zipRegexp)) {
         this.$router.push({
           name: 'submit'
         })
       } else {
         this.error = true
-        this.errorMessage = 'Bitte geben Sie die ersten drei Ziffern Ihrer PLZ ein'
+        this.errorMessage = 'Bitte geben Sie PLZ ein.'
       }
     }
   }
