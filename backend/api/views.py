@@ -18,9 +18,8 @@ class ReportViewSet(viewsets.ModelViewSet):
 class ReportResultViewSet(viewsets.ViewSet):
     def retrieve(self, *args):
         results = (
-            Report.objects.values("zip_code_shortened", "symptoms__name")
+            Report.objects.values("zip_code", "symptoms__name")
             .annotate(users_count_affected=Count("id"))
-            .annotate(zip_code=F("zip_code_shortened"))
             .annotate(symptom=F("symptoms__name"))
             .values("zip_code", "users_count_affected", "symptom")
         )
