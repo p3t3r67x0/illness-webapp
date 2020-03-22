@@ -9,11 +9,14 @@
     margin: 0 auto;
     display: block;
     padding: 40px 0;
-    img {
-      margin: auto;
+    a {
+      display: block;
       width: 200px;
+      margin: auto;
+      img {
+        margin: auto;
+      }
     }
   }
 
 </style>
-
