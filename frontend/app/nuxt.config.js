@@ -55,7 +55,8 @@ export default {
   ],
   purgeCSS: {
      whitelistPatterns: [
-       /multiselect/
+       /multiselect/,
+       /leaflet/
      ]
    },
   /*
