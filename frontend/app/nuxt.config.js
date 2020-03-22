@@ -19,6 +19,9 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  env: {
+    API_URL: process.env.API_URL || 'https://covi.403.io/api/v1/'
+  },
   /*
   ** Customize the progress-bar color
   */

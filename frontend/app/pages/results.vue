@@ -78,8 +78,13 @@ export default {
       }]
     }
   },
-  created() {
-    this.createMap();
+  async created() {
+    try {
+      const result = await this.$axios.$get(`${process.env.API_URL}/report/result/`);
+      this.createMap(result);
+    } catch (e) {
+      console.log(e)
+    }
   },
   methods: {
     normalizeResponse(response) {
@@ -100,7 +105,7 @@ export default {
         return `${symptom}: ${Object.values(symptoms)[index]}`;
       }).join(', ');
     },
-    async createMap() {
+    async createMap(response) {
       // eslint-disable-next-line no-undef
       if (document.getElementById('map')) {
         const L = this.$L;
@@ -110,7 +115,7 @@ export default {
         const provider = new OpenStreetMapProvider();
         const results = await provider.search({ query: 'germany' });
 
-        await this.normalizeResponse(this.apiResponse).forEach(async (item) => {
+        await this.normalizeResponse(response).forEach(async (item) => {
           try {
             const result = await provider.search({query: item.zip});
             this.stats.push({
