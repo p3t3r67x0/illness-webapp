@@ -8,12 +8,13 @@
       <small v-if="error" class="inline-block bg-red-600 text-white p-3">{{ errorMessage }}</small>
       <multiselect  v-model="response"
                     tag-placeholder="Add this as new tag"
-                    placeholder="Husten, Schüttelfrost"
+                    placeholder="z.B. Husten, Schüttelfrost"
                     label="name"
                     track-by="id"
                     :options="results"
                     :multiple="true"
                     :taggable="true"
+                    :close-on-select="false"
                     @tag="addTag"
                     class="w-full border border-blue-600 rounded text-xl mb-3"></multiselect>
       <div class="text-right">
@@ -35,17 +36,13 @@ export default {
   },
   head() {
     return {
-      title: 'tbd.',
       meta: [{
         hid: 'description',
-        name: 'description',
-        content: 'tbd.'
       }]
     }
   },
   created() {
     this.$axios.$get(`${process.env.API_URL}/symptom/?format=json`).then(res => {
-      console.log(res.results)
       this.results = res.results
     }).catch((error) => {
       console.log(error)

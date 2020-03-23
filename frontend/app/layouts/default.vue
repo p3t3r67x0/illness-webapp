@@ -14,6 +14,11 @@ export default {
   components: {
     HeaderComponent,
     FooterComponent
+  },
+  head() {
+    return {
+      title: 'covi'
+    }
   }
 }
 </script>

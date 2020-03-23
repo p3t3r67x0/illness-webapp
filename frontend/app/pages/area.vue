@@ -2,7 +2,7 @@
 <div class="flex justify-center py-32">
   <div class="container p-3">
     <h1 class="text-2xl text-blue-600 mb-3">
-      In welchem PLZ Gebiet leben Sie?
+      In welchem PLZ-Gebiet leben Sie?
     </h1>
     <form v-on:submit.prevent="nextQuestion">
       <small v-if="error" class="inline-block bg-red-600 text-white p-3">{{ errorMessage }}</small>
@@ -27,11 +27,9 @@ export default {
   },
   head() {
     return {
-      title: 'tbd.',
       meta: [{
         hid: 'description',
         name: 'description',
-        content: 'tbd.'
       }]
     }
   },

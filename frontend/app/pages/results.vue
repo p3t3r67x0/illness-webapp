@@ -2,12 +2,12 @@
 <div class="flex justify-center md:py-12">
   <div class="container p-3">
     <h1 class="text-2xl mb-3 text-blue-600">
-      Übersicht der eingereichten Daten.
+      Übersicht der eingereichten Daten
     </h1>
     <div id="map"></div>
     <ul class="list text-blue-600">
       <li v-for="(item, index) in stats" :key="index">
-        <div v-for="(item, index) in stats" :key="index" class="rounded overflow-hidden shadow-lg">
+        <div class="rounded overflow-hidden shadow-lg">
           <div class="px-6 py-4">
             <strong class="text-base">
               {{ item.label }}
@@ -19,6 +19,9 @@
         </div>
       </li>
     </ul>
+    <div class="scroll-to-top">
+      <a class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6" v-on:click.stop="scrollToTop">&#8593;</a>
+    </div>
   </div>
 </div>
 </template>
@@ -79,11 +82,8 @@ export default {
   },
   head() {
     return {
-      title: 'tbd.',
       meta: [{
         hid: 'description',
-        name: 'description',
-        content: 'tbd.'
       }]
     }
   },
@@ -96,6 +96,13 @@ export default {
     }
   },
   methods: {
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
+    },
     normalizeResponse(response) {
       const groupedResponse = groupBy(response, 'zip_code')
 
@@ -127,6 +134,9 @@ export default {
         await this.normalizeResponse(response).forEach(async (item) => {
           try {
             const result = await provider.search({query: item.zip});
+            if (!result || !result[0]) {
+              return;
+            }
             this.stats.push({
               label: result[0].label,
               symptoms: item.symptoms
@@ -156,7 +166,7 @@ export default {
 }
 </script>
 
-<style class="scss">
+<style lang="scss">
   #map {
     position: relative;
     display: block;
@@ -165,5 +175,19 @@ export default {
 
   .list {
     padding: 20px 0;
+  }
+
+  .scroll-to-top {
+    width: 100%;
+    margin: 0;
+    text-align: right;
+    position: fixed;
+    display: block;
+    bottom: 16px;
+    right: 16px;
+    > a {
+      opacity: .5;
+      left: -16px;
+    }
   }
 </style>
