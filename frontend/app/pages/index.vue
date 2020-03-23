@@ -21,6 +21,12 @@
         <button class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6">Weiter</button>
       </div>
     </form>
+    <div class="text-right py-3 ">
+        <a class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6" v-on:click.stop="$router.push({
+         name: 'results'
+       })">Zur Symptomkarte
+       </a>
+    </div>
   </div>
 </div>
 </template>
