@@ -7,7 +7,7 @@
     <div id="map"></div>
     <ul class="list text-blue-600">
       <li v-for="(item, index) in stats" :key="index">
-        <div v-for="(item, index) in stats" :key="index" class="rounded overflow-hidden shadow-lg">
+        <div class="rounded overflow-hidden shadow-lg">
           <div class="px-6 py-4">
             <strong class="text-base">
               {{ item.label }}
