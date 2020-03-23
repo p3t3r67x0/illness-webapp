@@ -17,7 +17,7 @@ export default {
   },
   head() {
     return {
-      title: 'Erfassung standortbasierter Symptomdaten'
+      title: 'covi'
     }
   }
 }
