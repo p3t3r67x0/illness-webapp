@@ -1,6 +1,6 @@
 ---
 project_name: "covi"
-domain_name: "covi.403.io"
+domain_name: "covi.life"
 admin_email: "boerni@gmail.com"
 app_home: "/opt/{{ project_name }}"
 app_dir: "{{ app_home }}"

@@ -20,7 +20,7 @@ export default {
     ]
   },
   env: {
-    API_URL: process.env.API_URL || 'https://covi.403.io/api/v1'
+    API_URL: process.env.API_URL || 'https://covi.life/api/v1'
   },
   /*
   ** Customize the progress-bar color
