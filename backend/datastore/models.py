@@ -22,7 +22,7 @@ class County(models.Model):
         if self.latitude is None or self.longitude is None:
             geo_coding_response = requests.get(
                 "https://nominatim.openstreetmap.org/search",
-                params={"country": "DE", "county": self.name, "format": "json",},
+                params={"country": "DE", "q": self.name, "format": "json",},
             )
 
             geo_coding_response.raise_for_status()
@@ -77,7 +77,7 @@ class ZIPCode(models.Model):
             geo_coding_response = geo_coding_response[0]
             county = (
                 geo_coding_response["address"].get("county")
-                or geo_coding_response["address"]["city"]
+                or f"{geo_coding_response['address']['city']} {geo_coding_response['address']['city_district']}"
             )
             self.county, created = County.objects.get_or_create(name=county)
         super().save(*args, **kwargs)
