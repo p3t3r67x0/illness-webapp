@@ -75,7 +75,6 @@ class ZIPCode(models.Model):
                 )
 
             geo_coding_response = geo_coding_response[0]
-            print(geo_coding_response)
             county = (
                 geo_coding_response["address"].get("county")
                 or f"{geo_coding_response['address'].get('city', geo_coding_response['address'].get('state'))} {geo_coding_response['address']['city_district']}"
