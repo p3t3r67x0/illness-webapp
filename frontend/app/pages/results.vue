@@ -55,29 +55,7 @@ export default {
         max: 2,
         data: []
       },
-      stats: [],
-      apiResponse: [
-        {
-          zip_code: 12435,
-          users_count_affected: 1,
-          symptom: "Husten",
-        },
-        {
-          zip_code: 12435,
-          users_count_affected: 2,
-          symptom: "Schnupfen",
-        },
-        {
-          zip_code: 13355,
-          users_count_affected: 10,
-          symptom: "Husten",
-        },
-        {
-          zip_code: 13355,
-          users_count_affected: 211,
-          symptom: "Schnupfen",
-        },
-      ]
+      stats: []
     }
   },
   head() {
