@@ -9,7 +9,7 @@ Group={{ app_user }}
 Restart=always
 RestartSec=5
 WorkingDirectory={{ app_dir }}/backend/
-ExecStart=/usr/lo   cal/bin/pipenv run gunicorn \
+ExecStart=/usr/local/bin/pipenv run gunicorn \
           -b {{ hostvars['covi.403.io'].lan_ip }}:{{ gunicorn_port }} \
           -p {{ app_home }}/gunicorn.pid \
           -w {{ ansible_processor_vcpus + 1 }} \
