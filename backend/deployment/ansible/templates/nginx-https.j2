@@ -107,9 +107,6 @@ server {
 
 # Support for OLD Domain covi.403.io
 server {
-	listen 443 ssl http2 default deferred;
-	listen [::]:443 ssl http2 default deferred;
-
     server_name covi.403.io;
 
     ssl_certificate         /etc/letsencrypt/live/covi.403.io/fullchain.pem;
