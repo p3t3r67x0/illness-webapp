@@ -1,7 +1,8 @@
-from datastore.models import Symptom, Report
+from datastore.models import Symptom
 
-from django.utils.translation import ugettext_lazy as _
+from django.db import transaction
 from rest_framework import serializers
+from datastore.models import ZIPCode, Report
 
 
 class SymptomSerializer(serializers.ModelSerializer):
@@ -10,16 +11,22 @@ class SymptomSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ReportSerializer(serializers.ModelSerializer):
+class ReportSerializer(serializers.Serializer):
+    zip_code = serializers.CharField(min_length=5, max_length=5)
     symptoms = serializers.PrimaryKeyRelatedField(
         many=True, queryset=Symptom.objects.all(), required=True, allow_empty=False
     )
 
     class Meta:
         model = Report
-        fields = "__all__"
+        fields = ["zip_code", "symptoms"]
 
-    def validate_zip_code(self, value):
-        if len(str(value)) != 5:
-            raise serializers.ValidationError(_("ZIP Code must to be 5 chars long"))
-        return value
+    @transaction.atomic()
+    def create(self, validated_data):
+        zip_code, _ = ZIPCode.objects.get_or_create(zip_code=validated_data["zip_code"])
+        report = Report(
+            zip_code=zip_code
+        )
+        report.save()
+        report.symptoms.set(validated_data["symptoms"])
+        return report
