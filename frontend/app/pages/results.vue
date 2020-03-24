@@ -6,15 +6,15 @@
     </h1>
     <div id="map"></div>
     <ul class="list text-blue-600">
-      <li v-for="(item, index) in stats" :key="index">
+      <li v-for="(item, index) in results" :key="index">
         <div class="rounded overflow-hidden shadow-lg">
           <div class="px-6 py-4">
             <strong class="text-base">
-              {{ item.label }}
+              {{ item.county }}
             </strong>
           </div>
           <div class="px-6 py-4">
-            <span v-for="symptom in formatSymptoms(item.symptoms)" class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{symptom}}</span>
+            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ item.symptom }}: {{ item.users_count_affected }}</span>
           </div>
         </div>
       </li>
@@ -32,7 +32,7 @@
 export default {
   data() {
     return {
-      // results: [],
+      results: [],
       heatMapConfig: {
         // radius should be small ONLY if scaleRadius is true (or small radius is intended)
         // if scaleRadius is false it will be the constant radius used in pixels
@@ -54,24 +54,20 @@ export default {
       heatMapStructure: {
         max: 2,
         data: []
-      },
-      stats: []
-    }
-  },
-  head() {
-    return {
-      meta: [{
-        hid: 'description',
-      }]
+      }
     }
   },
   async created() {
     try {
-      const result = await this.$axios.$get(`${process.env.API_URL}/report/result/`);
-      this.createMap(result);
+      const results = await this.$axios.$get(`${process.env.API_URL}/report/result/?new_format`);
+      this.results = results
+      this.createMap(results)
     } catch (e) {
       console.log(e)
     }
+  },
+  watch: {
+    results: function() {}
   },
   methods: {
     scrollToTop() {
@@ -81,48 +77,18 @@ export default {
         behavior: 'smooth'
       });
     },
-    normalizeResponse(response) {
-      const groupedResponse = groupBy(response, 'zip_code')
-
-      return  Object.keys(groupedResponse)
-        .map(zip => {
-          return {
-            zip: Number(zip),
-            symptoms: groupedResponse[zip].map((item) => {
-              return { [item.symptom]: item.users_count_affected }
-            }).reduce((a, b) => Object.assign(a, b), {})
-          }
-        });
-    },
-    formatSymptoms(symptoms) {
-      return Object.keys(symptoms).map((symptom, index) => {
-        return `${symptom}: ${Object.values(symptoms)[index]}`;
-      });
-    },
     async createMap(response) {
       // eslint-disable-next-line no-undef
       if (document.getElementById('map')) {
         const L = this.$L;
         const HeatmapOverlay = await require('@/assets/leaflet-heatmap.js');
-
         const heatMapLayer = new HeatmapOverlay(this.heatMapConfig);
-        const provider = new OpenStreetMapProvider();
-        const results = await provider.search({ query: 'germany' });
 
-        await this.normalizeResponse(response).forEach(async (item) => {
+        await response.forEach(async (item) => {
           try {
-            const result = await provider.search({query: item.zip});
-            if (!result || !result[0]) {
-              return;
-            }
-            this.stats.push({
-              label: result[0].label,
-              symptoms: item.symptoms
-            });
-
             this.heatMapStructure.data.push({
-              lat: Number(result[0].y),
-              lng: Number(result[0].x)
+              lat: Number(item.latitude),
+              lng: Number(item.longitude)
             });
             heatMapLayer.setData(this.heatMapStructure)
           } catch (e) {
@@ -134,7 +100,7 @@ export default {
           dragging: !L.Browser.mobile,
           maxZoom: 10,
           tap: !L.Browser.mobile,
-          center: new L.LatLng(Number(results[0].y), Number(results[0].x)),
+          center: new L.LatLng(51.37328923, 10.21334121),
           zoom: 6,
           layers: [new L.TileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.png'), heatMapLayer]
         });
