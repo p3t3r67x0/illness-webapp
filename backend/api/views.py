@@ -40,36 +40,27 @@ class ReportResultViewSet(viewsets.ViewSet):
             except ValueError:
                 raise ValidationError(_(f"Invalid date filter '{date_filter}'"))
 
-        if "new_format" in request.GET:
-            results = (
-                Report.objects.filter(**qs_filter).values(
-                    "zip_code__county__name",
-                    "zip_code__county__longitude",
-                    "zip_code__county__latitude",
-                    "symptoms__name",
-                )
-                .annotate(users_count_affected=Count("id"))
-                .annotate(symptom=F("symptoms__name"))
-                .annotate(
-                    county=F("zip_code__county__name"),
-                    longitude=F("zip_code__county__longitude"),
-                    latitude=F("zip_code__county__latitude"),
-                )
-                .values(
-                    "county",
-                    "longitude",
-                    "latitude",
-                    "users_count_affected",
-                    "symptom",
-                )
+        results = (
+            Report.objects.filter(**qs_filter).values(
+                "zip_code__county__name",
+                "zip_code__county__longitude",
+                "zip_code__county__latitude",
+                "symptoms__name",
             )
-            return JsonResponse(list(results), safe=False)
-        else:
-            results = (
-                Report.objects.filter(**qs_filter).values("zip_code", "symptoms__name")
-                .annotate(users_count_affected=Count("id"))
-                .annotate(symptom=F("symptoms__name"))
-                .values("zip_code__zip_code", "users_count_affected", "symptom")
-                .annotate(zip_code=F("zip_code__zip_code"))
+            .annotate(users_count_affected=Count("id"))
+            .annotate(symptom=F("symptoms__name"))
+            .annotate(
+                county=F("zip_code__county__name"),
+                longitude=F("zip_code__county__longitude"),
+                latitude=F("zip_code__county__latitude"),
             )
-            return JsonResponse(list(results), safe=False)
+            .values(
+                "county",
+                "longitude",
+                "latitude",
+                "users_count_affected",
+                "symptom",
+            )
+        )
+
+        return JsonResponse(list(results), safe=False)

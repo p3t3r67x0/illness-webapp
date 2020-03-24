@@ -59,7 +59,7 @@ export default {
   },
   async created() {
     try {
-      const results = await this.$axios.$get(`${process.env.API_URL}/report/result/?new_format`);
+      const results = await this.$axios.$get(`${process.env.API_URL}/report/result/`);
       this.results = results
       this.createMap(results)
     } catch (e) {
