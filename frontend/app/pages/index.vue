@@ -49,7 +49,7 @@ export default {
   },
   created() {
     this.$axios.$get(`${process.env.API_URL}/symptom/?format=json`).then(res => {
-      this.results = res.results
+      this.results = res
     }).catch((error) => {
       console.log(error)
     })
