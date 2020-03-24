@@ -75,9 +75,10 @@ class ZIPCode(models.Model):
                 )
 
             geo_coding_response = geo_coding_response[0]
+            print(geo_coding_response)
             county = (
                 geo_coding_response["address"].get("county")
-                or f"{geo_coding_response['address']['city']} {geo_coding_response['address']['city_district']}"
+                or f"{geo_coding_response['address'].get('city', geo_coding_response['address'].get('state'))} {geo_coding_response['address']['city_district']}"
             )
             self.county, created = County.objects.get_or_create(name=county)
         super().save(*args, **kwargs)
