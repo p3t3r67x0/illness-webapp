@@ -44,8 +44,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
     '@nuxtjs/vuetify',
-    'nuxt-vue-multiselect',
-    'nuxt-leaflet',
+    'nuxt-leaflet'
   ],
   purgeCSS: {
      whitelistPatterns: [
