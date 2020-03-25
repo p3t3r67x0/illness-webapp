@@ -1,43 +1,49 @@
 <template>
-<div class="flex justify-center py-32">
-  <div class="container p-3">
-    <h1 class="text-2xl text-blue-600 mb-3">
-      Welche Symptome haben Sie?
-    </h1>
-    <form v-on:submit.prevent="nextQuestion">
-      <small v-if="error" class="inline-block bg-red-600 text-white p-3">{{ errorMessage }}</small>
-      <multiselect  v-model="response"
-                    tag-placeholder="Add this as new tag"
-                    placeholder="z.B. Husten, Schüttelfrost"
-                    label="name"
-                    track-by="id"
-                    :options="results"
-                    :multiple="true"
-                    :taggable="true"
-                    :close-on-select="false"
-                    @tag="addTag"
-                    class="w-full border border-blue-600 rounded text-xl mb-3"></multiselect>
-      <div class="text-right">
-        <button class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6">Weiter</button>
-      </div>
-    </form>
-    <div class="text-right py-3 ">
-        <a class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6" v-on:click.stop="$router.push({
-         name: 'results'
-       })">Zur Symptomkarte
-       </a>
-    </div>
-  </div>
-</div>
+  <v-container fill-height>
+        <v-layout justify-center align-center color="blue lighten-2">
+            <v-form ref="form" v-model="valid" class="form">
+                <h1 class="blue--text headline">
+                  Welche Symptome haben Sie?
+                </h1>
+                <br />
+                <v-select
+                  v-model="response"
+                  :items="results"
+                  item-text="name"
+                  item-value="id"
+                  required
+                  chips
+                  label="z.B. Husten, Schüttelfrost"
+                  multiple
+                  solo
+                  :rules="[v => v.length !== 0 || 'Bitte geben Sie mindestens ein Symptom an']"
+                ></v-select>
+                <div class="float-right text-right">
+                  <v-btn
+                    color="primary"
+                    class="mr-4"
+                    @click="nextQuestion">Weiter</v-btn>
+                  <br /><br />
+                  <v-btn
+                    outlined
+                    color="primary"
+                    class="mr-4"
+                    @click.stop="$router.push({
+                             name: 'results'
+                           })">Zur Symptomkarte</v-btn>
+                </div>
+            </v-form>
+        </v-layout>
+  </v-container>
 </template>
 
 <script>
 export default {
   data() {
     return {
+      valid: false,
       results: [],
-      error: false,
-      errorMessage: null
+      data: null
     }
   },
   head() {
@@ -64,32 +70,21 @@ export default {
       },
     }
   },
-  watch: {
-    response: function() {
-      if (this.response.length > 0) {
-        this.error = false
-      }
-    }
-  },
   methods: {
-    addTag (newTag) {
-      const tag = {
-        name: newTag,
-        id: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
-      }
-      this.response = [...this.response, tag]
-      this.$store.commit('updateSymptoms', [...this.$store.state.symptoms, tag])
-    },
-    nextQuestion() {
-      if (this.response.length > 0) {
+    nextQuestion () {
+      this.$refs.form.validate()
+      if (this.valid) {
         this.$router.push({
           name: 'area'
         })
-      } else {
-        this.error = true
-        this.errorMessage = 'Bitte geben Sie mindestens ein Symptom an'
       }
     }
   }
 }
 </script>
+
+<style lang="scss">
+  .form {
+    width: 100%;
+  }
+</style>

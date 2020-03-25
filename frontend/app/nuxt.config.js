@@ -38,24 +38,17 @@ export default {
   plugins: [
   ],
   /*
-  ** Nuxt.js dev-modules
-  */
-  buildModules: [
-    // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
-    '@nuxtjs/tailwindcss',
-  ],
-  /*
   ** Nuxt.js modules
   */
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
-    'nuxt-vue-multiselect',
+    '@nuxtjs/vuetify',
     'nuxt-leaflet'
   ],
   purgeCSS: {
      whitelistPatterns: [
-       /multiselect/,
+       /vuetify/,
        /leaflet/
      ]
    },

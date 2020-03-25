@@ -1,5 +1,7 @@
 <template>
-  <footer class="footer text-blue-600">Made with <strong>&#9829;</strong> from quarantine</footer>
+  <v-footer color="white" class="footer">
+    <div class="blue--text">Made with <strong>&#9829;</strong> from quarantine</div>
+  </v-footer>
 </template>
 
 <style lang="scss">

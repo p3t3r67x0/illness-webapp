@@ -1,18 +1,35 @@
 <template>
-<div class="flex justify-center py-32">
-  <div class="container p-3">
-    <h1 class="text-center text-2xl text-blue-600 mb-3">
-      Geschafft! Ihre Daten werden übermittelt
-    </h1>
-    <div class="text-center">
-      <a v-on:click.stop="previousQuestion" class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6">Zurück</a>
-      <div class="text-blue-600">- oder -</div>
-      <a class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6" v-on:click.stop="$router.push({
-        name: 'results'
-      })">Zur Übersicht der eingereichten Daten.</a>
-    </div>
-  </div>
-</div>
+  <v-container fill-height>
+    <v-layout justify-center align-center color="blue lighten-2">
+      <v-container class="container">
+        <v-row>
+          <h1 class="blue--text headline">
+            Geschafft! Ihre Daten werden übermittelt
+          </h1>
+          </v-row>
+        <br />
+          <v-row align="center">
+          <v-btn
+            outlined
+            color="primary"
+            @click.stop="previousQuestion">Zurück</v-btn>
+            </v-row>
+        <br />
+        oder
+        <br />
+        <br />
+        <v-row>
+          <v-btn
+            color="primary"
+            @click.stop="$router.push({
+                               name: 'results'
+                             })">
+            Zur Symptomkarte
+          </v-btn>
+        </v-row>
+      </v-container>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -25,22 +42,16 @@ export default {
     }
   },
   created() {
-    const symptoms = this.$store.state.symptoms
-    let symptomsId = []
+    const { symptoms } = this.$store.state
 
-    for (let symptom of symptoms) {
-      symptomsId.push(symptom.id)
+    try {
+      this.$axios.$post(`${process.env.API_URL}/report/`, {
+        zip_code: this.$store.state.area,
+        symptoms: symptoms.map(i => i.id)
+      })
+    } catch (e) {
+      console.log(e)
     }
-
-    console.log(symptomsId)
-    this.$axios.$post(`${process.env.API_URL}/report/`, {
-      zip_code: this.$store.state.area,
-      symptoms: symptomsId
-    }).then(res => {
-      console.log(res)
-    }).catch((error) => {
-      console.log(error)
-    })
   },
   methods: {
     previousQuestion() {
@@ -51,3 +62,12 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .container {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+  }
+</style>
