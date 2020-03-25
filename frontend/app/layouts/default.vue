@@ -1,9 +1,11 @@
 <template>
-<div class="layout min-h-full min-h-screen">
-  <header-component />
-  <nuxt />
-  <footer-component />
-</div>
+  <v-app>
+    <header-component />
+    <v-content class="content">
+      <nuxt />
+    </v-content>
+    <footer-component />
+  </v-app>
 </template>
 
 <script>
@@ -24,11 +26,9 @@ export default {
 </script>
 
 <style lang="scss">
-  .layout {
-    display: flex;
-    flex-direction: column;
-    > div {
-      flex: auto;
-    }
+  .content {
+    max-width: 1200px;
+    margin: auto;
+    width: 100%;
   }
 </style>

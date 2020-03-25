@@ -1,29 +1,36 @@
 <template>
-<div class="flex justify-center md:py-12">
-  <div class="container p-3">
-    <h1 class="text-2xl mb-3 text-blue-600">
-      Übersicht der eingereichten Daten
-    </h1>
-    <div id="map"></div>
-    <ul class="list text-blue-600">
-      <li v-for="(item, index) in normalizeResponse(results)" :key="index">
-        <div class="rounded overflow-hidden shadow-lg">
-          <div class="px-6 py-4">
-            <strong class="text-base">
-              {{ item.county }}
-            </strong>
-          </div>
-          <div class="px-6 py-4">
-            <span v-for="symptom in formatSymptoms(item.symptoms)" class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ symptom }}</span>
-          </div>
-        </div>
-      </li>
-    </ul>
-    <div class="scroll-to-top">
-      <a class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6" v-on:click.stop="scrollToTop">&#8593;</a>
-    </div>
-  </div>
-</div>
+  <v-container fill-height class="mx-auto">
+    <v-layout class="layout" justify-center align-center color="blue lighten-2">
+      <h1 class="blue--text headline">
+        Übersicht der eingereichten Daten
+      </h1>
+      <br />
+      <div class="map-container">
+        <div id="map"></div>
+      </div>
+      <br />
+      <br />
+      <v-card
+        class="mx-auto"
+        outlined
+      >
+      <v-list two-line>
+        <v-subheader>Symptome</v-subheader>
+          <v-list-item v-for="(item, index) in normalizeResponse(results)" :key="index">
+              <v-list-item-content>
+                <v-list-item-title>{{ item.county }}</v-list-item-title>
+                <div>
+                  <v-chip v-for="symptom in formatSymptoms(item.symptoms)" class="ma-2">{{ symptom }}</v-chip>
+                </div>
+              </v-list-item-content>
+          </v-list-item>
+      </v-list>
+      </v-card>
+      <!--<div class="scroll-to-top">
+        <a class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6" v-on:click.stop="scrollToTop">&#8593;</a>
+      </div>-->
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -69,10 +76,18 @@ export default {
     results: function() {}
   },
   methods: {
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
+    },
     normalizeResponse(response) {
       const groupedResponse = groupBy(response, 'county')
       return  Object.keys(groupedResponse)
         .map(county => {
+          console.log(groupedResponse[county])
           return {
             county,
             longitude: groupedResponse[county][0].longitude,
@@ -87,13 +102,6 @@ export default {
       return Object.keys(symptoms).map((symptom, index) => {
         return `${symptom}: ${Object.values(symptoms)[index]}`
       })
-    },
-    scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth'
-      });
     },
     async createMap(response) {
       // eslint-disable-next-line no-undef
@@ -133,6 +141,16 @@ export default {
     position: relative;
     display: block;
     height: 600px;
+  }
+
+  .layout {
+    flex-direction: column;
+  }
+
+  .map-container {
+    position: relative;
+    display: block;
+    width: 100%;
   }
 
   .list {
