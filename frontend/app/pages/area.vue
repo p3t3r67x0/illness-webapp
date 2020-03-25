@@ -1,25 +1,45 @@
 <template>
-<div class="flex justify-center py-32">
-  <div class="container p-3">
-    <h1 class="text-2xl text-blue-600 mb-3">
-      In welchem PLZ-Gebiet leben Sie?
-    </h1>
-    <form v-on:submit.prevent="nextQuestion">
-      <small v-if="error" class="inline-block bg-red-600 text-white p-3">{{ errorMessage }}</small>
-      <input type="text" class="w-full border border-blue-600 rounded text-xl p-2 mb-3" v-model="response" placeholder="10115" pattern="^(?!01000)(?!99999)(0[1-9]\d{3}|[1-9]\d{4})$">
-      <div class="text-right">
-        <a v-on:click.stop="previousQuestion" class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6 mr-2">Zurück</a>
-        <a v-on:click="nextQuestion" class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6">Weiter</a>
-      </div>
-    </form>
-  </div>
-</div>
+  <v-container fill-height>
+    <v-layout justify-center align-center color="blue lighten-2">
+      <v-row>
+        <v-form ref="form" v-model="valid" class="form">
+          <v-container>
+            <h1 class="blue--text headline">
+              In welchem PLZ-Gebiet leben Sie?
+            </h1>
+            <br />
+            <v-text-field
+              v-model="area"
+              :counter="max"
+              required
+              solo
+              :rules="[v => !!v.match(zipRegexp) || 'Bitte geben Sie PLZ ein.']"
+              label="z.B. 10115" />
+          </v-container>
+
+          <div class="float-right text-right">
+            <v-btn
+              outlined
+              color="primary"
+              class="mr-4"
+              @click.stop="previousQuestion">Zurück</v-btn>
+            <v-btn
+              color="primary"
+              class="mr-4"
+              @click.stop="nextQuestion">Weiter</v-btn>
+          </div>
+        </v-form>
+      </v-row>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
 export default {
   data() {
     return {
+      valid: false,
+      max: 0,
       error: false,
       errorMessage: null,
       zipRegexp: /^(?!01000)(?!99999)(0[1-9]\d{3}|[1-9]\d{4})$/
@@ -34,20 +54,13 @@ export default {
     }
   },
   computed: {
-    response: {
+    area: {
       get() {
         return this.$store.state.area
       },
       set(response) {
         this.$store.commit('updateArea', response)
       },
-    }
-  },
-  watch: {
-    response: function() {
-      if (this.response.match(this.zipRegexp)) {
-        this.error = false
-      }
     }
   },
   methods: {
@@ -57,13 +70,11 @@ export default {
       })
     },
     nextQuestion() {
-      if (this.response.match(this.zipRegexp)) {
+      this.$refs.form.validate()
+      if (this.area.match(this.zipRegexp)) {
         this.$router.push({
           name: 'submit'
         })
-      } else {
-        this.error = true
-        this.errorMessage = 'Bitte geben Sie PLZ ein.'
       }
     }
   }

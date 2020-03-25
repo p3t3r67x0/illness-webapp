@@ -1,33 +1,39 @@
 <template>
-<div class="flex justify-center md:py-12">
-  <div class="container p-3">
-    <h1 class="text-2xl mb-3 text-blue-600">
-      Übersicht der eingereichten Daten
-    </h1>
-    <div id="map"></div>
-    <ul class="list text-blue-600">
-      <li v-for="(item, index) in results" :key="index">
-        <div class="rounded overflow-hidden shadow-lg">
-          <div class="px-6 py-4">
-            <strong class="text-base">
-              {{ item.county }}
-            </strong>
-          </div>
-          <div class="px-6 py-4">
-            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ item.symptom }}: {{ item.users_count_affected }}</span>
-          </div>
-        </div>
-      </li>
-    </ul>
-    <div class="scroll-to-top">
-      <a class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6" v-on:click.stop="scrollToTop">&#8593;</a>
-    </div>
-  </div>
-</div>
+  <v-container fill-height class="mx-auto">
+    <v-layout class="layout" justify-center align-center color="blue lighten-2">
+      <h1 class="blue--text headline">
+        Übersicht der eingereichten Daten
+      </h1>
+      <br />
+      <div class="map-container">
+        <div id="map"></div>
+      </div>
+      <br />
+      <br />
+      <v-card
+        class="mx-auto"
+        outlined
+      >
+      <v-list two-line>
+        <v-subheader>Symptome</v-subheader>
+          <v-list-item v-for="(item, index) in normalizeResponse(results)" :key="index">
+              <v-list-item-content>
+                <v-list-item-title>{{ item.county }}</v-list-item-title>
+                <div>
+                  <v-chip v-for="symptom in formatSymptoms(item.symptoms)" class="ma-2">{{ symptom }}</v-chip>
+                </div>
+              </v-list-item-content>
+          </v-list-item>
+      </v-list>
+      </v-card>
+      <!--<div class="scroll-to-top">
+        <a class="cursor-pointer rounded inline-block bg-blue-600 hover:bg-blue-800 text-white py-2 px-6" v-on:click.stop="scrollToTop">&#8593;</a>
+      </div>-->
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
-  import { OpenStreetMapProvider } from 'leaflet-geosearch';
   import { groupBy } from '../utils';
 export default {
   data() {
@@ -77,6 +83,26 @@ export default {
         behavior: 'smooth'
       });
     },
+    normalizeResponse(response) {
+      const groupedResponse = groupBy(response, 'county')
+      return  Object.keys(groupedResponse)
+        .map(county => {
+          console.log(groupedResponse[county])
+          return {
+            county,
+            longitude: groupedResponse[county][0].longitude,
+            latitude: groupedResponse[county][0].latitude,
+            symptoms: groupedResponse[county].map((item) => {
+              return { [item.symptom]: item.users_count_affected }
+            }).reduce((a, b) => Object.assign(a, b), {})
+          }
+        });
+    },
+    formatSymptoms(symptoms) {
+      return Object.keys(symptoms).map((symptom, index) => {
+        return `${symptom}: ${Object.values(symptoms)[index]}`
+      })
+    },
     async createMap(response) {
       // eslint-disable-next-line no-undef
       if (document.getElementById('map')) {
@@ -84,7 +110,7 @@ export default {
         const HeatmapOverlay = await require('@/assets/leaflet-heatmap.js');
         const heatMapLayer = new HeatmapOverlay(this.heatMapConfig);
 
-        await response.forEach(async (item) => {
+        await this.normalizeResponse(response).forEach(async (item) => {
           try {
             this.heatMapStructure.data.push({
               lat: Number(item.latitude),
@@ -115,6 +141,16 @@ export default {
     position: relative;
     display: block;
     height: 600px;
+  }
+
+  .layout {
+    flex-direction: column;
+  }
+
+  .map-container {
+    position: relative;
+    display: block;
+    width: 100%;
   }
 
   .list {
