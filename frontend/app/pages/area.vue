@@ -10,7 +10,6 @@
             <br />
             <v-text-field
               v-model="area"
-              :counter="max"
               required
               solo
               :rules="[v => !!v.match(zipRegexp) || 'Bitte geben Sie PLZ ein.']"
@@ -39,7 +38,6 @@ export default {
   data() {
     return {
       valid: false,
-      max: 0,
       error: false,
       errorMessage: null,
       zipRegexp: /^(?!01000)(?!99999)(0[1-9]\d{3}|[1-9]\d{4})$/
