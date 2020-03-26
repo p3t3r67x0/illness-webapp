@@ -21,7 +21,7 @@ class County(models.Model):
     def save(self, *args, **kwargs):
         if self.latitude is None or self.longitude is None:
             geo_coding_response = requests.get(
-                "https://nominatim.openstreetmap.org/search",
+                "https://nominatim.opendatacoder.me/search",
                 params={"country": "DE", "q": self.name, "format": "json",},
             )
 
@@ -55,7 +55,7 @@ class ZIPCode(models.Model):
             self.county
         except County.DoesNotExist:
             geo_coding_response = requests.get(
-                "https://nominatim.openstreetmap.org/search",
+                "https://nominatim.opendatacoder.me/search",
                 params={
                     "country": "DE",
                     "postalcode": self.zip_code,
