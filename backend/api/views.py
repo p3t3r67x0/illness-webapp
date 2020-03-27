@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.utils.translation import ugettext_lazy as _
 from rest_framework import viewsets
 from django.db.models import F, Count
+from django.db.models.functions import TruncDate
 from rest_framework.exceptions import ValidationError
 
 from datastore.models import Symptom, Report
@@ -41,25 +42,29 @@ class ReportResultViewSet(viewsets.ViewSet):
                 raise ValidationError(_(f"Invalid date filter '{date_filter}'"))
 
         results = (
-            Report.objects.filter(**qs_filter).values(
+            Report.objects.filter(**qs_filter)
+            .values(
                 "zip_code__county__name",
+                "symptoms__name",
+                "created__date",
                 "zip_code__county__longitude",
                 "zip_code__county__latitude",
-                "symptoms__name",
             )
-            .annotate(users_count_affected=Count("id"))
-            .annotate(symptom=F("symptoms__name"))
             .annotate(
                 county=F("zip_code__county__name"),
+                date=TruncDate("created__date"),
+                symptom=F("symptoms__name"),
                 longitude=F("zip_code__county__longitude"),
                 latitude=F("zip_code__county__latitude"),
             )
+            .annotate(users_count_affected=Count("id"))
             .values(
                 "county",
+                "date",
+                "symptom",
                 "longitude",
                 "latitude",
                 "users_count_affected",
-                "symptom",
             )
         )
 
