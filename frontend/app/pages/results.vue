@@ -109,12 +109,18 @@ export default {
       return date > this.today
     },
     async getFilterResult() {
-      const dateParam = `${this.date !== null ? `&date=${this.date}`: ''}`
-      const countyParam = `${this.county !== null ? `&county=${this.county}`: ''}`
-      const zipCodeParam = `${this.zipCodeRegex.test(this.zipCode) ? `&zip_code=${this.zipCode}`: ''}`
+      const queryString = require('query-string')
+
+      const queryParams = {
+        date: `${this.date !== null ? `${this.date}`: ''}`,
+        county: `${this.county !== null ? `${this.county}`: ''}`,
+        zip_code: `${this.zipCodeRegex.test(this.zipCode) ? `${this.zipCode}`: ''}`
+      }
+
+      const query = queryString.stringify(queryParams)
 
       try {
-        const results = await this.$axios.$get(`${process.env.API_URL}/report/result/?new_format${dateParam}${zipCodeParam}${countyParam}`)
+        const results = await this.$axios.$get(`${process.env.API_URL}/report/result/?${query}`)
         this.results = this.normalizeResponse(results)
         this.updateMap()
       } catch (e) {
