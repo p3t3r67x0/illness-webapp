@@ -8,7 +8,7 @@
     <input type="text" class="sm:w-1/4 border border-blue-600 rounded text-xl p-2 mb-3" v-model="county" placeholder="Landkreis">
     <input type="text" class="sm:w-1/4 border border-blue-600 rounded text-xl p-2 mb-3" v-model="zipCode" placeholder="PLZ">
     <client-only>
-      <date-picker v-model="date" format="DD-MM-YYYY" valueType="YYYY-MM-DD" :disabled-date="notAfterToday" class="sm:w-1/4 border border-blue-600 rounded text-xl mb-3" placeholder="YYYY-MM-DD"></date-picker>
+      <date-picker v-model="date" format="DD-MM-YYYY" valueType="YYYY-MM-DD" :disabled-date="notAfterToday" class="sm:w-1/4 border border-blue-600 rounded text-xl mb-3" placeholder="DD-MM-YYYY"></date-picker>
     </client-only>
     <div id="map"></div>
     <ul class="list text-blue-600">
@@ -34,6 +34,7 @@
 
 <script>
 import { groupBy } from '../utils';
+import { stringify as queryStringify } from 'query-string';
 
 export default {
   data() {
@@ -109,15 +110,19 @@ export default {
       return date > this.today
     },
     async getFilterResult() {
-      const queryString = require('query-string')
+      const queryParams = {}
 
-      const queryParams = {
-        date: `${this.date !== null ? `${this.date}`: ''}`,
-        county: `${this.county !== null ? `${this.county}`: ''}`,
-        zip_code: `${this.zipCodeRegex.test(this.zipCode) ? `${this.zipCode}`: ''}`
+      if (this.date) {
+        queryParams.date = this.date
+      }
+      if(this.county) {
+        queryParams.county = this.county
+      }
+      if(this.zipCodeRegex.test(this.zipCode)) {
+        queryParams.zip_code = this.zipCode
       }
 
-      const query = queryString.stringify(queryParams)
+      const query = queryStringify(queryParams)
 
       try {
         const results = await this.$axios.$get(`${process.env.API_URL}/report/result/?${query}`)
