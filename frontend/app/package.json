@@ -17,7 +17,9 @@
     "leaflet-geosearch": "^2.7.0",
     "nuxt": "^2.0.0",
     "nuxt-leaflet": "0.0.21",
-    "nuxt-vue-multiselect": "1.0.4"
+    "nuxt-vue-multiselect": "1.0.4",
+    "query-string": "^6.11.1",
+    "vue2-datepicker": "^3.4.1"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^1.0.0",

@@ -4,7 +4,12 @@
     <h1 class="text-2xl mb-3 text-blue-600">
       Übersicht der eingereichten Daten
     </h1>
-    Filter: <input type="text" class="w-1/4 border border-blue-600 rounded text-xl p-2 mb-3" v-model="zipCode" placeholder="PLZ">
+    <h3 class="text-xl">Filter</h3>
+    <input type="text" class="sm:w-1/4 border border-blue-600 rounded text-xl p-2 mb-3" v-model="county" placeholder="Landkreis">
+    <input type="text" class="sm:w-1/4 border border-blue-600 rounded text-xl p-2 mb-3" v-model="zipCode" placeholder="PLZ">
+    <client-only>
+      <date-picker v-model="date" format="DD-MM-YYYY" valueType="YYYY-MM-DD" :disabled-date="notAfterToday" class="sm:w-1/4 border border-blue-600 rounded text-xl mb-3" placeholder="DD-MM-YYYY"></date-picker>
+    </client-only>
     <div id="map"></div>
     <ul class="list text-blue-600">
       <li v-for="(item, index) in results" :key="index">
@@ -29,11 +34,15 @@
 
 <script>
 import { groupBy } from '../utils';
+import { stringify as queryStringify } from 'query-string';
 
 export default {
   data() {
     return {
       results: [],
+      date: null,
+      county: null,
+      today: new Date(),
       zipCode: null,
       zipCodeRegex: /^(?!01000|99999)(0[1-9]\d{3}|[1-9]\d{4})$/,
       heatMapLayer: null,
@@ -82,19 +91,47 @@ export default {
     }
   },
   watch: {
-    zipCode: async function(zipCode) {
-      try {
-        if (this.zipCodeRegex.test(zipCode) || zipCode === '') {
-          const results = await this.$axios.$get(`${process.env.API_URL}/report/result/${this.zipCodeRegex.test(zipCode) ? `?new_format&zip_code=${zipCode}`: ''}`)
-          this.results = this.normalizeResponse(results)
-          this.updateMap()
-        }
-      } catch (e) {
-        console.log(e)
+    zipCode: async function() {
+      if (this.zipCodeRegex.test(this.zipCode) || this.zipCode === '') {
+        this.getFilterResult()
       }
+    },
+    county: async function() {
+      if (this.county.length > 0 || this.county === '') {
+        this.getFilterResult()
+      }
+    },
+    date: async function() {
+      this.getFilterResult()
     }
   },
   methods: {
+    notAfterToday(date) {
+      return date > this.today
+    },
+    async getFilterResult() {
+      const queryParams = {}
+
+      if (this.date) {
+        queryParams.date = this.date
+      }
+      if(this.county) {
+        queryParams.county = this.county
+      }
+      if(this.zipCodeRegex.test(this.zipCode)) {
+        queryParams.zip_code = this.zipCode
+      }
+
+      const query = queryStringify(queryParams)
+
+      try {
+        const results = await this.$axios.$get(`${process.env.API_URL}/report/result/?${query}`)
+        this.results = this.normalizeResponse(results)
+        this.updateMap()
+      } catch (e) {
+        console.log(e)
+      }
+    },
     async getResult() {
       try {
         const results = await this.$axios.$get(`${process.env.API_URL}/report/result/`)

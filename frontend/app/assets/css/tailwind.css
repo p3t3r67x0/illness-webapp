@@ -7,3 +7,17 @@
 .multiselect__option--highlight, .multiselect__tag-icon:hover, .multiselect__option--highlight::after, .multiselect__tag {
   background: #3182ce !important;
 }
+
+@media (min-width: 640px) {
+  .mx-datepicker.sm\:w-1\/4 {
+    width: 25% !important;
+  }
+}
+
+.mx-input {
+  height: 46px !important;
+  border: none !important;
+  font-size: 1.25rem !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
