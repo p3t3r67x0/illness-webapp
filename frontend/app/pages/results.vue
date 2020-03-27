@@ -4,7 +4,11 @@
     <h1 class="text-2xl mb-3 text-blue-600">
       Übersicht der eingereichten Daten
     </h1>
-    Filter: <input type="text" class="w-1/4 border border-blue-600 rounded text-xl p-2 mb-3" v-model="zipCode" placeholder="PLZ">
+    <h3 class="text-xl">Filter</h3>
+    <input type="text" class="sm:w-1/4 border border-blue-600 rounded text-xl p-2 mb-3" v-model="zipCode" placeholder="PLZ">
+    <client-only>
+      <date-picker v-model="date" valueType="format" :disabled-date="notAfterToday" class="sm:w-1/4 border border-blue-600 rounded text-xl mb-3" placeholder="YYYY-MM-DD"></date-picker>
+    </client-only>
     <div id="map"></div>
     <ul class="list text-blue-600">
       <li v-for="(item, index) in results" :key="index">
@@ -34,6 +38,8 @@ export default {
   data() {
     return {
       results: [],
+      date: null,
+      today: new Date(),
       zipCode: null,
       zipCodeRegex: /^(?!01000|99999)(0[1-9]\d{3}|[1-9]\d{4})$/,
       heatMapLayer: null,
@@ -92,9 +98,21 @@ export default {
       } catch (e) {
         console.log(e)
       }
+    },
+    date: async function(date) {
+      try {
+        const results = await this.$axios.$get(`${process.env.API_URL}/report/result/?new_format&date=${date}`)
+        this.results = this.normalizeResponse(results)
+        this.updateMap()
+      } catch (e) {
+        console.log(e)
+      }
     }
   },
   methods: {
+    notAfterToday(date) {
+      return date > this.today
+    },
     async getResult() {
       try {
         const results = await this.$axios.$get(`${process.env.API_URL}/report/result/`)
