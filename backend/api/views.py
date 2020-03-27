@@ -31,7 +31,7 @@ class ReportResultViewSet(viewsets.ViewSet):
 
         county_filter = request.GET.get("county")
         if county_filter:
-            qs_filter["zip_code__county__name"] = county_filter
+            qs_filter["zip_code__county__name__iexact"] = county_filter
 
         date_filter = request.GET.get("date")
         if date_filter:
