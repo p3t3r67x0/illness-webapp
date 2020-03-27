@@ -8,7 +8,7 @@
     <input type="text" class="sm:w-1/4 border border-blue-600 rounded text-xl p-2 mb-3" v-model="county" placeholder="Landkreis">
     <input type="text" class="sm:w-1/4 border border-blue-600 rounded text-xl p-2 mb-3" v-model="zipCode" placeholder="PLZ">
     <client-only>
-      <date-picker v-model="date" valueType="format" :disabled-date="notAfterToday" class="sm:w-1/4 border border-blue-600 rounded text-xl mb-3" placeholder="YYYY-MM-DD"></date-picker>
+      <date-picker v-model="date" format="DD-MM-YYYY" valueType="YYYY-MM-DD" :disabled-date="notAfterToday" class="sm:w-1/4 border border-blue-600 rounded text-xl mb-3" placeholder="YYYY-MM-DD"></date-picker>
     </client-only>
     <div id="map"></div>
     <ul class="list text-blue-600">
