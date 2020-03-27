@@ -55,11 +55,13 @@ export default {
     'nuxt-leaflet'
   ],
   purgeCSS: {
-     whitelistPatterns: [
-       /multiselect/,
-       /leaflet/
-     ]
-   },
+    enabled: false,
+    whitelistPatterns: [
+      /datepicker/,
+      /multiselect/,
+      /leaflet/
+    ]
+  },
   /*
   ** Build configuration
   */
