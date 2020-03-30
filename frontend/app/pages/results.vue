@@ -67,7 +67,9 @@ export default {
       heatMapStructure: {
         max: 2,
         data: []
-      }
+      },
+      markerList: [],
+      map: null
     }
   },
   async created() {
@@ -76,7 +78,7 @@ export default {
       const HeatmapOverlay = await require ('@/assets/leaflet-heatmap.js')
       this.heatMapLayer = new HeatmapOverlay(this.heatMapConfig)
 
-      new L.Map('map', {
+      this.map = new L.Map('map', {
         dragging: !L.Browser.mobile,
         maxZoom: 10,
         tap: !L.Browser.mobile,
@@ -115,10 +117,12 @@ export default {
       if (this.date) {
         queryParams.date = this.date
       }
-      if(this.county) {
+
+      if (this.county) {
         queryParams.county = this.county
       }
-      if(this.zipCodeRegex.test(this.zipCode)) {
+
+      if (this.zipCodeRegex.test(this.zipCode)) {
         queryParams.zip_code = this.zipCode
       }
 
@@ -168,14 +172,20 @@ export default {
     },
     updateMap() {
       this.heatMapStructure.data = []
+      this.markerList = []
+
       this.results.forEach((item) => {
-          this.heatMapStructure.data.push({
-            lat: Number(item.latitude),
-            lng: Number(item.longitude)
-          })
+        this.markerList.push(L.marker([item.latitude, item.longitude]))
+
+        this.heatMapStructure.data.push({
+          lat: Number(item.latitude),
+          lng: Number(item.longitude)
+        })
       })
 
       this.heatMapLayer.setData(this.heatMapStructure)
+      const group = L.featureGroup(this.markerList)
+      this.map.fitBounds(group.getBounds())
     }
   }
 }
